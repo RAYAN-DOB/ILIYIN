@@ -4,7 +4,7 @@ export const SITE_CONFIG = {
   description:
     "Association humanitaire œuvrant pour l'entraide et la dignité de chacun, sans aucune distinction.",
   url: "https://iliyin.org",
-  email: "iliyin@outlook.fr",
+  email: "assoiliyin@gmail.com",
   phone: "+33650938870",
   phoneDisplay: "06 50 93 88 70",
   address: "Fontenay-sous-Bois, Île-de-France",
