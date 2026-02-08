@@ -1,0 +1,54 @@
+// ILIYIN - Schéma Prisma pour PostgreSQL (Vercel-ready)
+// npx prisma generate && npx prisma migrate deploy
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String
+  city      String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model VolunteerSignup {
+  id            String   @id @default(cuid())
+  name          String
+  email         String?
+  phone         String
+  city          String
+  availability  String
+  message       String?
+  createdAt     DateTime @default(now())
+}
+
+model SponsorshipRequest {
+  id        String   @id @default(cuid())
+  fullName  String
+  phone     String
+  city      String
+  option    Int // 1 ou 2
+  budget    String?
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
+model Donation {
+  id        String   @id @default(cuid())
+  amount    Float
+  currency  String   @default("EUR")
+  email     String?
+  name      String?
+  message   String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
