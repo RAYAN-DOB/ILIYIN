@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Logo from "@/components/ui/Logo";
-import { NAV_ITEMS } from "@/lib/constants";
+import { NAV_ITEMS, SITE_CONFIG } from "@/lib/constants";
 
 export default function NavBar() {
   const [open, setOpen] = useState(false);
@@ -74,13 +74,15 @@ export default function NavBar() {
 
           {/* CTA Don : séparé à droite */}
           <div className="hidden md:block shrink-0">
-            <Link
-              href="/#donation"
+            <a
+              href={SITE_CONFIG.donateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={handleLinkClick}
               className="inline-flex items-center justify-center rounded-2xl font-montserrat font-bold text-sm px-4 py-2.5 md:px-5 md:py-2.5 bg-gradient-to-r from-iliyin-emerald to-iliyin-emerald-dark text-white hover:shadow-lg hover:shadow-emerald-glow transition-all whitespace-nowrap border-l border-iliyin-emerald/30 pl-4 md:pl-5 ml-2"
             >
               Faire un don
-            </Link>
+            </a>
           </div>
 
           <button
@@ -116,13 +118,15 @@ export default function NavBar() {
                 </li>
               ))}
               <li className="pt-3 mt-1 border-t border-white/10">
-                <Link
-                  href="/#donation"
+                <a
+                  href={SITE_CONFIG.donateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={handleLinkClick}
                   className="block w-full text-center rounded-2xl font-montserrat font-bold py-3.5 px-4 bg-gradient-to-r from-iliyin-emerald to-iliyin-emerald-dark text-white min-h-[48px] flex items-center justify-center"
                 >
                   Faire un don
-                </Link>
+                </a>
               </li>
             </ul>
           </motion.div>

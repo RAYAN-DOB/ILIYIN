@@ -43,7 +43,7 @@ export const CONTACT_CONFIG = {
 export const NAV_ITEMS = [
   { label: "Accueil", href: "/" },
   { label: "Nos actions", href: "/#actions" },
-  { label: "Faire un don", href: "/#donation" },
+  { label: "Faire un don", href: SITE_CONFIG.donateUrl },
   { label: "Devenir bénévole", href: "/#volunteer" },
   { label: "Parrainage", href: "/#sponsor" },
   { label: "À propos", href: "/#about" },

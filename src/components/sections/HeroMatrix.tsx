@@ -18,7 +18,7 @@ export default function HeroMatrix() {
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.25, 0.75], [1, 1, 0]);
 
   return (
     <motion.section
@@ -95,9 +95,7 @@ export default function HeroMatrix() {
           transition={{ delay: 0.5, duration: 0.5 }}
         >
           <CyberButton
-            onClick={() =>
-              document.getElementById("donation")?.scrollIntoView({ behavior: "smooth" })
-            }
+            href={SITE_CONFIG.donateUrl}
             className="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg font-bold bg-white text-iliyin-green-darker hover:bg-iliyin-off-white hover:scale-105 transition-transform min-h-[48px]"
           >
             Faire un don
