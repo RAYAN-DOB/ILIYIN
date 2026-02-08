@@ -17,8 +17,8 @@ export default function HeroMatrix() {
     target: containerRef,
     offset: ["start start", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.25, 0.75], [1, 1, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.6, 1], ["0%", "0%", "25%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 0.95], [1, 1, 0]);
 
   return (
     <motion.section
