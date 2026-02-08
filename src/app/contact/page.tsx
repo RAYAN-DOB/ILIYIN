@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main id="main" className="relative z-10 pt-16 sm:pt-20 md:pt-24 min-h-screen" aria-label="Contenu principal">
+    <main id="main" className="relative z-10 pt-16 sm:pt-20 md:pt-24 min-h-screen min-h-screen-safe" aria-label="Contenu principal">
       <ContactInfoSection />
       <Footer />
     </main>

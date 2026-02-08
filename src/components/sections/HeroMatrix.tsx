@@ -24,7 +24,7 @@ export default function HeroMatrix() {
     <motion.section
       ref={containerRef}
       style={{ y, opacity }}
-      className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-20 md:py-24 overflow-hidden"
+      className="relative min-h-screen min-h-screen-safe flex flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-20 md:py-24 overflow-hidden"
     >
       {/* Dégradé d'overlay */}
       <div

@@ -52,14 +52,18 @@ input, select, textarea {
   }
 }
 
-/* Safe area pour encoches / barre d'accueil */
+/* Safe area pour encoches / barre d'accueil (Safari iOS) */
 @supports (padding: max(0px)) {
   .safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
   .safe-right { padding-right: max(1rem, env(safe-area-inset-right)); }
+  .safe-top { padding-top: max(0.75rem, env(safe-area-inset-top)); }
+  .safe-left { padding-left: max(1rem, env(safe-area-inset-left)); }
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 [id="main"],
@@ -72,7 +76,7 @@ html {
   scroll-margin-top: 5rem;
 }
 
-/* Dégradé principal plus élégant */
+/* Dégradé principal plus élégant — compatible Safari / tous navigateurs */
 body {
   background: linear-gradient(
     180deg,
@@ -87,7 +91,17 @@ body {
   color: var(--white);
   font-family: var(--font-montserrat), var(--font-exo), system-ui, sans-serif;
   min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* Safari iOS : fixed background peut provoquer des glitches au scroll */
+@media (hover: none) and (pointer: coarse) {
+  body {
+    background-attachment: scroll;
+  }
 }
 
 .transition-smooth {
@@ -110,6 +124,7 @@ body {
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
+  color: transparent;
   -webkit-text-fill-color: transparent;
   animation: shimmer 2s linear infinite;
   font-weight: 700;
@@ -243,6 +258,24 @@ body {
 }
 .border-gold-hover:hover::after {
   opacity: 0.7;
+}
+@supports (-webkit-mask-composite: source-out) or (mask-composite: exclude) {
+  .border-gold-hover::after {
+    -webkit-mask-composite: source-out;
+  }
+}
+
+/* Hauteur plein écran compatible Safari (barre d’adresse iOS) */
+.min-h-screen-safe {
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+
+/* Réduction surlignage au tap (Safari / mobile) */
+a, button {
+  -webkit-tap-highlight-color: rgba(45, 212, 160, 0.2);
+  tap-highlight-color: rgba(45, 212, 160, 0.2);
 }
 
 @keyframes fade-in-up {

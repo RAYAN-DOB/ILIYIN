@@ -39,7 +39,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="min-h-screen text-white overflow-x-hidden antialiased">
+      <body className="min-h-screen min-h-screen-safe text-white overflow-x-hidden antialiased">
         <OrganizationJsonLd />
         <a href="#main" className="skip-link">
           Aller au contenu
