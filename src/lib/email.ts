@@ -1,10 +1,21 @@
 import { Resend } from "resend";
 
-// Initialiser Resend avec la clé API (depuis les variables d'environnement)
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 const TO_EMAIL = process.env.NOTIFICATION_EMAIL || "assoiliyin@gmail.com";
+
+// Initialiser Resend de manière lazy (seulement quand nécessaire, pas au build)
+let resendInstance: Resend | null = null;
+
+function getResend(): Resend {
+  if (!resendInstance) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      throw new Error("RESEND_API_KEY is not defined");
+    }
+    resendInstance = new Resend(apiKey);
+  }
+  return resendInstance;
+}
 
 /**
  * Envoyer un email de notification à l'association (nouveau formulaire reçu)
@@ -79,6 +90,7 @@ export async function sendNotificationEmail(params: {
   }
 
   try {
+    const resend = getResend();
     const { data: result, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: TO_EMAIL,
@@ -226,6 +238,7 @@ export async function sendConfirmationEmail(params: {
   }
 
   try {
+    const resend = getResend();
     const { data: result, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to,
