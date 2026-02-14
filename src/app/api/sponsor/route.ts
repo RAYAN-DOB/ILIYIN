@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { sendNotificationEmail } from "@/lib/email";
 
 /**
  * POST /api/sponsor — Demande de parrainage (SponsorshipRequest).
  * option: 1 ou 2 (type de parrainage).
+ * Envoie un email de notification à l'asso.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -35,6 +37,14 @@ export async function POST(request: NextRequest) {
         notes: notes ? String(notes).slice(0, 2000) : null,
       },
     });
+
+    // Envoi email de notification à l'asso
+    sendNotificationEmail({
+      type: "sponsor",
+      data: { fullName, phone, city, option: opt, budget, notes },
+    }).catch((err) => console.error("[Sponsor] Erreur notification email:", err));
+
+    // Pas d'email de confirmation car pas d'email collecté dans le formulaire parrainage
 
     return NextResponse.json({
       success: true,

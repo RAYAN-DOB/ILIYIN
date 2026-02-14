@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { sendNotificationEmail, sendConfirmationEmail } from "@/lib/email";
 
 /**
  * POST /api/volunteer — Inscription bénévole (VolunteerSignup).
+ * Envoie un email de notification à l'asso + email de confirmation à l'utilisateur.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -26,6 +28,21 @@ export async function POST(request: NextRequest) {
         message: message ? String(message).slice(0, 2000) : null,
       },
     });
+
+    // Envoi email de notification à l'asso
+    sendNotificationEmail({
+      type: "volunteer",
+      data: { name, email, phone, city, availability, message },
+    }).catch((err) => console.error("[Volunteer] Erreur notification email:", err));
+
+    // Envoi email de confirmation à l'utilisateur (si email fourni)
+    if (email) {
+      sendConfirmationEmail({
+        to: email,
+        name,
+        type: "volunteer",
+      }).catch((err) => console.error("[Volunteer] Erreur confirmation email:", err));
+    }
 
     return NextResponse.json({
       success: true,

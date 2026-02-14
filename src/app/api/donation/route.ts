@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { sendNotificationEmail, sendConfirmationEmail } from "@/lib/email";
 
 /**
  * POST /api/donation — Enregistre un don (Donation). status = "pending" par défaut.
+ * Envoie un email de notification à l'asso + email de confirmation à l'utilisateur.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -27,6 +29,21 @@ export async function POST(request: NextRequest) {
         status: "pending",
       },
     });
+
+    // Envoi email de notification à l'asso
+    sendNotificationEmail({
+      type: "donation",
+      data: { amount: numAmount, currency: currency || "EUR", email, name, message },
+    }).catch((err) => console.error("[Donation] Erreur notification email:", err));
+
+    // Envoi email de confirmation à l'utilisateur (si email fourni)
+    if (email) {
+      sendConfirmationEmail({
+        to: email,
+        name: name || "Donateur",
+        type: "donation",
+      }).catch((err) => console.error("[Donation] Erreur confirmation email:", err));
+    }
 
     return NextResponse.json({
       success: true,

@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { sendNotificationEmail, sendConfirmationEmail } from "@/lib/email";
 
 /**
  * POST /api/contact — Enregistre un message de contact (ContactMessage).
+ * Envoie un email de notification à l'asso + email de confirmation à l'utilisateur.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -25,6 +27,21 @@ export async function POST(request: NextRequest) {
         message: String(message).slice(0, 5000),
       },
     });
+
+    // Envoi email de notification à l'asso (en arrière-plan, n'attend pas)
+    sendNotificationEmail({
+      type: "contact",
+      data: { name, email, phone, city, message },
+    }).catch((err) => console.error("[Contact] Erreur notification email:", err));
+
+    // Envoi email de confirmation à l'utilisateur (si email fourni)
+    if (email) {
+      sendConfirmationEmail({
+        to: email,
+        name,
+        type: "contact",
+      }).catch((err) => console.error("[Contact] Erreur confirmation email:", err));
+    }
 
     return NextResponse.json({
       success: true,
