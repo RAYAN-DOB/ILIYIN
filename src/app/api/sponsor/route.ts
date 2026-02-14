@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { sendNotificationEmail } from "@/lib/email";
+import { sendNotificationEmail, sendConfirmationEmail } from "@/lib/email";
 
 /**
  * POST /api/sponsor — Demande de parrainage (SponsorshipRequest).
  * option: 1 ou 2 (type de parrainage).
- * Envoie un email de notification à l'asso.
+ * Envoie un email de notification à l'asso + email de confirmation à l'utilisateur.
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { fullName, phone, city, option, budget, notes } = body;
+    const { fullName, email, phone, city, option, budget, notes } = body;
 
-    if (!fullName || !phone || !city || option === undefined) {
+    if (!fullName || !email || !phone || !city || option === undefined) {
       return NextResponse.json(
-        { error: "fullName, phone, city et option (1 ou 2) sont requis" },
+        { error: "fullName, email, phone, city et option (1 ou 2) sont requis" },
         { status: 400 }
       );
     }
@@ -41,10 +41,15 @@ export async function POST(request: NextRequest) {
     // Envoi email de notification à l'asso
     sendNotificationEmail({
       type: "sponsor",
-      data: { fullName, phone, city, option: opt, budget, notes },
+      data: { fullName, email, phone, city, option: opt, budget, notes },
     }).catch((err) => console.error("[Sponsor] Erreur notification email:", err));
 
-    // Pas d'email de confirmation car pas d'email collecté dans le formulaire parrainage
+    // Envoi email de confirmation à l'utilisateur
+    sendConfirmationEmail({
+      to: email,
+      name: fullName,
+      type: "sponsor",
+    }).catch((err) => console.error("[Sponsor] Erreur confirmation email:", err));
 
     return NextResponse.json({
       success: true,

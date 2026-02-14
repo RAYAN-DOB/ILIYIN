@@ -98,6 +98,7 @@ export default function SponsorSection() {
                 const form = e.currentTarget;
                 const data = {
                   fullName: (form.querySelector('[name="fullName"]') as HTMLInputElement).value,
+                  email: (form.querySelector('[name="email"]') as HTMLInputElement).value,
                   phone: (form.querySelector('[name="phone"]') as HTMLInputElement).value,
                   city: (form.querySelector('[name="city"]') as HTMLInputElement).value,
                   option,
@@ -151,6 +152,10 @@ export default function SponsorSection() {
               <div>
                 <label className="block font-montserrat font-medium text-gray-700 mb-1 text-sm">Nom complet</label>
                 <input name="fullName" type="text" required className={inputClass} placeholder="Nom complet" />
+              </div>
+              <div>
+                <label className="block font-montserrat font-medium text-gray-700 mb-1 text-sm">Email</label>
+                <input name="email" type="email" required className={inputClass} placeholder="vous@exemple.fr" />
               </div>
               <div>
                 <label className="block font-montserrat font-medium text-gray-700 mb-1 text-sm">Téléphone</label>

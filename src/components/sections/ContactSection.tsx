@@ -133,7 +133,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <label className="block font-montserrat font-medium text-gray-700 mb-1 text-sm">Email</label>
-                <motion.input name="email" type="email" className={inputClass} placeholder="vous@exemple.fr" whileFocus={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} />
+                <motion.input name="email" type="email" required className={inputClass} placeholder="vous@exemple.fr" whileFocus={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} />
               </div>
               <div>
                 <label className="block font-montserrat font-medium text-gray-700 mb-1 text-sm">Téléphone</label>

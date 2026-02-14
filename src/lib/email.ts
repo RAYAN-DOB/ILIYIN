@@ -67,6 +67,7 @@ export async function sendNotificationEmail(params: {
       content = `
         <h2>Nouvelle demande de parrainage</h2>
         <p><strong>Nom complet :</strong> ${data.fullName}</p>
+        <p><strong>Email :</strong> ${data.email}</p>
         <p><strong>Téléphone :</strong> ${data.phone}</p>
         <p><strong>Ville :</strong> ${data.city}</p>
         <p><strong>Option choisie :</strong> Option ${data.option}</p>

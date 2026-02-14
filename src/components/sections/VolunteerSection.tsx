@@ -94,7 +94,7 @@ export default function VolunteerSection() {
               </div>
               <div>
                 <label className="block font-montserrat font-medium text-gray-700 mb-1 text-sm">Email</label>
-                <input name="email" type="email" className={inputClass} placeholder="email@exemple.fr" />
+                <input name="email" type="email" required className={inputClass} placeholder="email@exemple.fr" />
               </div>
               <div>
                 <label className="block font-montserrat font-medium text-gray-700 mb-1 text-sm">Téléphone</label>
