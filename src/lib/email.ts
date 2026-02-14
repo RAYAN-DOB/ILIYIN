@@ -4,17 +4,19 @@ const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 const TO_EMAIL = process.env.NOTIFICATION_EMAIL || "assoiliyin@gmail.com";
 
 // Initialiser Resend de manière lazy (seulement quand nécessaire, pas au build)
+// Utilise une clé factice pendant le build pour éviter les erreurs
 let resendInstance: Resend | null = null;
 
 function getResend(): Resend {
   if (!resendInstance) {
-    const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
-      throw new Error("RESEND_API_KEY is not defined");
-    }
+    const apiKey = process.env.RESEND_API_KEY || "re_dummy_key_for_build";
     resendInstance = new Resend(apiKey);
   }
   return resendInstance;
+}
+
+function isResendConfigured(): boolean {
+  return !!process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== "re_dummy_key_for_build";
 }
 
 /**
@@ -87,6 +89,12 @@ export async function sendNotificationEmail(params: {
         <p style="font-size: 12px; color: #666;">Reçu via association-iliyin.fr - <strong>À finaliser sur PayAsso</strong></p>
       `;
       break;
+  }
+
+  // Si Resend n'est pas configuré, on log et on continue sans erreur
+  if (!isResendConfigured()) {
+    console.warn("[Email] Resend non configuré - email de notification non envoyé");
+    return { success: false, error: "Resend not configured" };
   }
 
   try {
@@ -235,6 +243,12 @@ export async function sendConfirmationEmail(params: {
         ${footer}
       `;
       break;
+  }
+
+  // Si Resend n'est pas configuré, on log et on continue sans erreur
+  if (!isResendConfigured()) {
+    console.warn("[Email] Resend non configuré - email de confirmation non envoyé");
+    return { success: false, error: "Resend not configured" };
   }
 
   try {
