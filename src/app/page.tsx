@@ -1,6 +1,7 @@
 "use client";
 
 import HeroMatrix from "@/components/sections/HeroMatrix";
+import SEOBlock from "@/components/sections/SEOBlock";
 import ActionsGrid from "@/components/sections/ActionsGrid";
 import DonationPortal from "@/components/sections/DonationPortal";
 import VolunteerSection from "@/components/sections/VolunteerSection";
@@ -18,6 +19,8 @@ export default function Home() {
         <ScrollReveal3D>
           <HeroMatrix />
         </ScrollReveal3D>
+
+        <SEOBlock />
 
         <ScrollReveal3D>
           <ActionsGrid />
